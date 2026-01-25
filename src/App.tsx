@@ -6,24 +6,27 @@ import Disclaimer from './components/Disclaimer'
 import KeyLinks from './components/KeyLinks'
 import ThemeToggle from './components/ThemeToggle'
 
+// Initialize theme before component renders
+const getInitialTheme = (): 'light' | 'dark' => {
+  const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null
+  if (savedTheme) return savedTheme
+  
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  return prefersDark ? 'dark' : 'light'
+}
+
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme)
 
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light')
-    setTheme(initialTheme)
-    document.documentElement.setAttribute('data-theme', initialTheme)
-  }, [])
+    // Apply theme to DOM on mount
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     localStorage.setItem('theme', newTheme)
-    document.documentElement.setAttribute('data-theme', newTheme)
   }
 
   return (

@@ -14,11 +14,13 @@ function Calculator() {
     const runningCostsPerYear = (annualKm / 1000) * 150 // Approx $150 per 1000km
     const totalAnnualCost = leasePaymentPerYear + runningCostsPerYear
     
-    // Tax savings estimate (simplified)
-    const marginalTaxRate = annualSalary > 180000 ? 0.45 : 
-                           annualSalary > 120000 ? 0.37 :
-                           annualSalary > 90000 ? 0.325 :
-                           annualSalary > 45000 ? 0.325 : 0.19
+    // Tax savings estimate (simplified - using approximate marginal rates including Medicare Levy)
+    // These are simplified for illustration. Actual rates depend on individual circumstances.
+    const marginalTaxRate = annualSalary > 190000 ? 0.47 :  // 45% + 2% Medicare Levy
+                           annualSalary > 135000 ? 0.39 :   // 37% + 2% Medicare Levy
+                           annualSalary > 45000 ? 0.32 :    // 30% + 2% Medicare Levy
+                           annualSalary > 18200 ? 0.21 :    // 19% + 2% Medicare Levy
+                           0.02                              // Medicare Levy only
     
     const estimatedTaxSavings = totalAnnualCost * marginalTaxRate
     const netCostPerYear = totalAnnualCost - estimatedTaxSavings
