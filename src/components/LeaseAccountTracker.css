@@ -1,0 +1,278 @@
+.lease-account-tracker {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.lease-account-tracker h2 {
+  color: var(--heading-color);
+  margin-bottom: 0.5rem;
+}
+
+.tracker-intro {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.tracker-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.summary-card.highlight {
+  background: var(--primary-light);
+  border-color: var(--primary-color);
+}
+
+.summary-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-value {
+  color: var(--heading-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.summary-note {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.chart-container {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--secondary-bg);
+  border-radius: 8px;
+}
+
+.chart-container h3 {
+  color: var(--heading-color);
+  margin-bottom: 1.5rem;
+}
+
+.tracker-tooltip {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.tooltip-title {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.tracker-tooltip p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.account-composition {
+  margin-bottom: 2rem;
+}
+
+.account-composition h3 {
+  color: var(--heading-color);
+  margin-bottom: 1.5rem;
+}
+
+.composition-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.composition-timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border-color);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline-marker {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.marker-dot {
+  position: absolute;
+  left: -1.85rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 3px solid var(--card-bg);
+  z-index: 1;
+}
+
+.marker-label {
+  font-weight: 600;
+  color: var(--heading-color);
+  font-size: 1.1rem;
+}
+
+.timeline-content {
+  background: var(--secondary-bg);
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.timeline-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.stat-value.success {
+  color: var(--success-color);
+}
+
+.stat-value.highlight {
+  color: var(--primary-color);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+  transition: width 0.5s ease;
+}
+
+.progress-label {
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.timeline-item.final .marker-dot {
+  background: var(--success-color);
+  width: 20px;
+  height: 20px;
+  left: -1.95rem;
+}
+
+.final-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+}
+
+.final-stat {
+  text-align: center;
+}
+
+.final-stat .stat-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.final-stat .stat-value {
+  font-size: 1.5rem;
+}
+
+.tracker-note {
+  padding: 1.5rem;
+  background: var(--info-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.tracker-note h4 {
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+}
+
+.tracker-note ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tracker-note li {
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.tracker-note strong {
+  color: var(--heading-color);
+}
+
+@media (max-width: 768px) {
+  .lease-account-tracker {
+    padding: 1.5rem;
+  }
+
+  .tracker-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-value {
+    font-size: 1.5rem;
+  }
+
+  .chart-container {
+    padding: 1rem;
+  }
+
+  .timeline-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .final-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

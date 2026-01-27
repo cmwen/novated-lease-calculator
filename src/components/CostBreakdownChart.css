@@ -1,0 +1,196 @@
+.cost-breakdown-chart {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.cost-breakdown-chart h2 {
+  color: var(--heading-color);
+  margin-bottom: 0.5rem;
+}
+
+.chart-intro {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.chart-section {
+  background: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.chart-section h3 {
+  color: var(--heading-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.cost-summary {
+  margin-top: 1.5rem;
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cost-item:last-child {
+  border-bottom: none;
+}
+
+.cost-item.total {
+  background: var(--primary-light);
+  margin-top: 0.5rem;
+  border-radius: 6px;
+  font-size: 1.1rem;
+}
+
+.cost-item.subtotal {
+  background: var(--secondary-bg);
+  margin-top: 0.5rem;
+  border-radius: 6px;
+}
+
+.cost-item.savings {
+  color: var(--success-color);
+}
+
+.cost-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cost-value {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.savings-bars {
+  margin-bottom: 1.5rem;
+}
+
+.savings-bar {
+  margin-bottom: 1.5rem;
+}
+
+.savings-label {
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.bar-container {
+  width: 100%;
+  height: 30px;
+  background: var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+}
+
+.savings-value {
+  text-align: right;
+  font-weight: 600;
+  color: var(--success-color);
+  font-size: 1.1rem;
+}
+
+.custom-tooltip {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.custom-tooltip .label {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+.custom-tooltip .value {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.custom-tooltip .percentage {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.breakdown-explanation {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--info-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.breakdown-explanation h4 {
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+}
+
+.breakdown-explanation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breakdown-explanation li {
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.breakdown-explanation strong {
+  color: var(--heading-color);
+}
+
+@media (max-width: 768px) {
+  .breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cost-breakdown-chart {
+    padding: 1.5rem;
+  }
+
+  .chart-section {
+    padding: 1rem;
+  }
+}

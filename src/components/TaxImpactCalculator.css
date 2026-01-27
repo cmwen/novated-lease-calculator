@@ -1,0 +1,275 @@
+.tax-impact-calculator {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.tax-impact-calculator h2 {
+  color: var(--heading-color);
+  margin-bottom: 0.5rem;
+}
+
+.tax-intro {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.impact-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.summary-card.highlight {
+  background: var(--success-light);
+  border-color: var(--success-color);
+}
+
+.summary-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.summary-content {
+  flex: 1;
+}
+
+.summary-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-value {
+  color: var(--heading-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.summary-note {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.tax-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.tax-scenario {
+  background: var(--secondary-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.tax-scenario.before {
+  border-color: var(--primary-color);
+}
+
+.tax-scenario.after {
+  border-color: var(--success-color);
+}
+
+.tax-scenario h3 {
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.package-banner {
+  background: var(--success-color);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.tax-details {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row span {
+  color: var(--text-secondary);
+}
+
+.detail-row.tax strong {
+  color: var(--error-color);
+}
+
+.detail-row.total-tax {
+  background: var(--error-light);
+  margin: 0.5rem -1rem;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+}
+
+.detail-row.net {
+  background: var(--success-light);
+  margin: 0.5rem -1rem;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.detail-row.net strong {
+  color: var(--success-color);
+}
+
+.detail-row.rate {
+  font-size: 0.9rem;
+}
+
+.tax-chart {
+  background: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.tax-chart h3 {
+  color: var(--heading-color);
+  margin-bottom: 1.5rem;
+}
+
+.tax-tooltip {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.tooltip-title {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.tax-tooltip p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.payg-explanation {
+  background: var(--info-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  margin-bottom: 2rem;
+}
+
+.payg-explanation h3 {
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+}
+
+.payg-explanation p {
+  color: var(--text-color);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.payg-explanation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.payg-explanation li {
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.payg-explanation li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.payg-explanation strong {
+  color: var(--heading-color);
+}
+
+.tax-warning {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  color: var(--text-color);
+}
+
+.tax-warning strong {
+  color: var(--warning-color);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.tax-warning ul {
+  margin: 0.5rem 0 0 1.5rem;
+}
+
+.tax-warning li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .tax-impact-calculator {
+    padding: 1.5rem;
+  }
+
+  .impact-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-value {
+    font-size: 1.5rem;
+  }
+
+  .tax-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tax-chart {
+    padding: 1rem;
+  }
+}

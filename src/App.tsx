@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import Calculator from './components/Calculator'
+import EnhancedCalculator from './components/EnhancedCalculator'
 import InfoSection from './components/InfoSection'
 import Disclaimer from './components/Disclaimer'
 import KeyLinks from './components/KeyLinks'
@@ -44,7 +44,7 @@ function App() {
       <main className="main">
         <div className="container">
           <Disclaimer />
-          <Calculator />
+          <EnhancedCalculator />
           <InfoSection />
           <KeyLinks />
         </div>

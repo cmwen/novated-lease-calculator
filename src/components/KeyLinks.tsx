@@ -4,21 +4,21 @@ function KeyLinks() {
   const links = [
     {
       title: 'Australian Taxation Office (ATO)',
-      description: 'Official tax information and FBT guidelines',
-      url: 'https://www.ato.gov.au/business/fringe-benefits-tax/types-of-fringe-benefits/car-fringe-benefits',
+      description: 'Official FBT information for car leasing and novated leases',
+      url: 'https://www.ato.gov.au/businesses-and-organisations/hiring-and-paying-your-workers/fringe-benefits-tax/types-of-fringe-benefits/fbt-on-cars-other-vehicles-parking-and-tolls/cars-and-fbt/car-leasing-and-fbt',
       icon: '🏛️'
     },
     {
       title: 'Moneysmart (ASIC)',
-      description: 'Independent financial guidance on car leases',
-      url: 'https://moneysmart.gov.au/car-finance/leasing',
+      description: 'Salary packaging and financial guidance',
+      url: 'https://moneysmart.gov.au/work-and-tax/salary-packaging',
       icon: '💰'
     },
     {
-      title: 'Choice - Car Leasing Guide',
-      description: 'Consumer advice and comparisons',
-      url: 'https://www.choice.com.au/transport/cars/general/articles/car-leasing',
-      icon: '🔍'
+      title: 'Moneysmart - Buying a Car',
+      description: 'Complete guide to car finance options',
+      url: 'https://moneysmart.gov.au/buying-a-car',
+      icon: '🚗'
     },
     {
       title: 'Fair Work Ombudsman',
@@ -33,9 +33,9 @@ function KeyLinks() {
       icon: '🌱'
     },
     {
-      title: 'Service NSW - Registration',
-      description: 'Vehicle registration information (NSW)',
-      url: 'https://www.service.nsw.gov.au/transaction/register-vehicle',
+      title: 'Service NSW - Vehicle Registration',
+      description: 'Vehicle registration information and services',
+      url: 'https://www.service.nsw.gov.au/services/registering-vehicle',
       icon: '📋'
     }
   ]

@@ -1,11 +1,106 @@
 .disclaimer {
-  background-color: var(--warning-bg);
-  border: 2px solid var(--warning);
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: var(--warning-bg);
+  border-left: 4px solid var(--warning-color);
+  border-radius: 8px;
+  padding: 2rem;
   margin: 2rem 0;
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.disclaimer-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.disclaimer-content h3 {
+  color: var(--heading-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.disclaimer-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.disclaimer-section:last-of-type {
+  border-bottom: none;
+}
+
+.disclaimer-section h4 {
+  color: var(--heading-color);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.disclaimer-content p {
+  color: var(--text-color);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.disclaimer-content ul {
+  margin: 0.5rem 0 0.75rem 1.5rem;
+  color: var(--text-color);
+}
+
+.disclaimer-content li {
+  margin-bottom: 0.6rem;
+  line-height: 1.6;
+}
+
+.disclaimer-content strong {
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+.disclaimer-important {
+  background: var(--error-light);
+  border: 2px solid var(--error-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.disclaimer-important strong {
+  color: var(--error-color);
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+
+.disclaimer-footer {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.disclaimer-footer p {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .disclaimer {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .disclaimer-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .disclaimer-section h4 {
+    font-size: 1rem;
+  }
+
+  .disclaimer-important strong {
+    font-size: 0.95rem;
+  }
 }
 
 .disclaimer-icon {

@@ -1,0 +1,300 @@
+.buy-vs-lease-comparison {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.buy-vs-lease-comparison h2 {
+  color: var(--heading-color);
+  margin-bottom: 0.5rem;
+}
+
+.comparison-intro {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.verdict-banner {
+  margin-bottom: 2rem;
+}
+
+.verdict {
+  padding: 2rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.verdict.lease-wins {
+  background: linear-gradient(135deg, var(--success-light) 0%, var(--success-color) 100%);
+  border: 2px solid var(--success-color);
+}
+
+.verdict.buy-wins {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+  border: 2px solid var(--primary-color);
+}
+
+.verdict-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.verdict-content {
+  flex: 1;
+}
+
+.verdict-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.verdict-savings {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.verdict-note {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.option-card {
+  background: var(--secondary-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.option-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.option-card.buy {
+  border-color: var(--primary-color);
+}
+
+.option-card.lease {
+  border-color: var(--success-color);
+}
+
+.option-header {
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.option-header h3 {
+  color: var(--heading-color);
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+}
+
+.option-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.cost-breakdown {
+  margin-bottom: 1.5rem;
+}
+
+.cost-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.cost-line span {
+  color: var(--text-secondary);
+}
+
+.cost-line.total {
+  background: var(--primary-light);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.cost-line.positive {
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.cost-line.net {
+  background: var(--secondary-bg);
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  font-weight: 700;
+}
+
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.pros,
+.cons {
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.pros {
+  background: var(--success-light);
+  border: 1px solid var(--success-color);
+}
+
+.cons {
+  background: var(--error-light);
+  border: 1px solid var(--error-color);
+}
+
+.pros h4,
+.cons h4 {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.pros h4 {
+  color: var(--success-color);
+}
+
+.cons h4 {
+  color: var(--error-color);
+}
+
+.pros ul,
+.cons ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pros li,
+.cons li {
+  padding-left: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+.visual-comparison {
+  background: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.visual-comparison h3 {
+  color: var(--heading-color);
+  margin-bottom: 1.5rem;
+}
+
+.comparison-tooltip {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.tooltip-title {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.comparison-tooltip p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.comparison-notes {
+  padding: 1.5rem;
+  background: var(--info-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.comparison-notes h3 {
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+}
+
+.comparison-notes ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comparison-notes li {
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.comparison-notes strong {
+  color: var(--heading-color);
+}
+
+@media (max-width: 968px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pros-cons {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .buy-vs-lease-comparison {
+    padding: 1.5rem;
+  }
+
+  .verdict {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .verdict-title {
+    font-size: 1.2rem;
+  }
+
+  .verdict-savings {
+    font-size: 1.5rem;
+  }
+
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-comparison {
+    padding: 1rem;
+  }
+}
