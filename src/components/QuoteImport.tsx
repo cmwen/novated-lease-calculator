@@ -7,15 +7,29 @@ interface QuoteImportProps {
   onImport: (data: QuoteData) => void
 }
 
-const LLM_EXTRACTION_PROMPT = `You are a financial data extraction assistant. Extract novated lease quote information from the provided document and output it as JSON.
+const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping consumers understand the true cost of novated lease quotes. Extract all financial information from the provided quote and analyze it to uncover hidden costs.
 
-**Instructions:**
-1. Read the novated lease quote carefully
-2. Extract all relevant financial information
-3. Output ONLY valid JSON matching the structure below
-4. Use 0 for any fees or costs not mentioned in the quote
-5. Convert all percentages to decimals (e.g., 7% = 0.07)
-6. Use annual amounts for all recurring costs
+**CRITICAL INSTRUCTIONS:**
+
+1. **Read the quote carefully** - Look for all costs, fees, and charges
+2. **Extract BOTH provided values AND underlying data:**
+   - Extract what the quote CLAIMS (residual value, total cost, payments, etc.)
+   - Extract the data we need to CALCULATE these ourselves (vehicle price, interest rate, term, etc.)
+   - This allows us to compare their numbers with our calculations
+3. **Calculate the INTEREST RATE** if not explicitly stated:
+   - Look at the fortnightly/monthly payment amount
+   - Calculate what interest rate produces this payment
+   - Consider the vehicle price, lease term, and residual value
+   - If you can determine or estimate the rate, include it; otherwise use 0.07 as a reasonable estimate
+4. **Identify ALL hidden costs and fees:**
+   - Management fees (monthly/annual)
+   - Establishment/application fees
+   - End-of-lease fees
+   - Insurance markups or broker fees
+   - Maintenance package costs
+   - Document fees
+   - Any other administrative charges
+5. **Output ONLY valid JSON** matching the structure below
 
 **Required JSON Structure:**
 
@@ -54,30 +68,95 @@ const LLM_EXTRACTION_PROMPT = `You are a financial data extraction assistant. Ex
     "taxableIncome": 80000,
     "hasHELPDebt": false,
     "helpRepaymentRate": 0
+  },
+  "quoteProvidedValues": {
+    "residualValue": 23440,
+    "totalFinanceCharges": 5250,
+    "fortnightlyPayment": 450,
+    "monthlyPayment": 975,
+    "totalPayments": 35100,
+    "totalLeaseCost": 58540,
+    "taxSavings": 8500,
+    "gstSavings": 4545
   }
 }
 \`\`\`
 
-**Field Descriptions:**
+**Field Descriptions - FOCUS ON COSTS:**
 
-- **vehicle.purchasePrice**: Total drive-away price or vehicle purchase price
+**VEHICLE & CORE COSTS (Most Important):**
+- **vehicle.purchasePrice**: Total drive-away price - this is what you're financing
 - **leaseTerms.interestRate**: Annual interest rate as decimal (e.g., 7% = 0.07)
-- **leaseTerms.annualKilometers**: Expected annual kilometers driven
-- **fees.establishmentFee**: One-time setup fee
-- **fees.monthlyAdminFee**: Monthly account management fee
-- **fees.endOfLeaseFee**: Fee charged at end of lease
-- **runningCosts**: All amounts should be ANNUAL costs
-  - **fuelPerYear**: Annual fuel costs
-  - **insurancePerYear**: Annual insurance premium
-  - **maintenancePerYear**: Annual service and maintenance
-  - **registrationPerYear**: Annual registration/CTP
-  - **tyresPerYear**: Annual tyre replacement costs
-- **fbt.employeeContributionAmount**: Annual post-tax employee contribution
-- **fbt.useStatutoryMethod**: true if using statutory FBT method, false if ECM
-- **fbt.statutoryRate**: Statutory rate (usually 0.20 or 0.09 for EVs)
-- **employee.helpRepaymentRate**: HELP/HECS repayment rate as decimal (e.g., 0.01 for 1%)
+  - TRY TO CALCULATE this from the payment amount if not stated
+  - This determines how much extra you pay over the lease term
+  - Common range: 0.05-0.10 (5%-10%)
+- **leaseTerms.durationYears**: Length of lease (typically 1-5 years)
+- **leaseTerms.annualKilometers**: Expected annual kilometers
 
-**Now extract the data from the following quote:**
+**FEES & HIDDEN COSTS (Critical for Comparison):**
+- **fees.establishmentFee**: One-time setup/application fee
+  - Often hidden in "documentation" or "processing" fees
+  - Typical range: $300-$800
+- **fees.monthlyAdminFee**: Monthly account management fee
+  - This is MONTHLY, not annual
+  - Multiply by lease term to see total impact
+  - Typical range: $8-$15 per month
+- **fees.endOfLeaseFee**: Fee charged at lease end
+  - May be called "disposal fee", "payout fee", or "termination fee"
+  - Typical range: $300-$500
+
+**RUNNING COSTS (Annual):**
+- **fuelPerYear**: Annual fuel/electricity costs
+- **insurancePerYear**: Annual insurance premium
+  - Watch for markups above market rates
+- **maintenancePerYear**: Annual service and maintenance
+  - If included as a "package", check if it's competitive
+- **registrationPerYear**: Annual registration/CTP
+- **tyresPerYear**: Annual tyre replacement costs
+
+**FBT & TAX (Less Important for Comparison):**
+- **fbt.employeeContributionAmount**: Annual post-tax employee contribution
+- **fbt.useStatutoryMethod**: true if using statutory FBT method
+- **fbt.statutoryRate**: Statutory rate (0.20 for most vehicles, 0 for EVs)
+
+**EMPLOYEE DETAILS:**
+- **employee.annualSalary**: Gross annual salary
+- **employee.taxableIncome**: Taxable income (usually same as salary)
+- **employee.hasHELPDebt**: true/false
+- **employee.helpRepaymentRate**: HELP repayment rate as decimal (0-0.10)
+
+**QUOTE PROVIDED VALUES (Extract what the quote claims):**
+- **quoteProvidedValues.residualValue**: The residual/balloon payment stated in the quote
+  - We'll compare this with ATO minimum residual values
+- **quoteProvidedValues.totalFinanceCharges**: Total interest charges claimed
+  - We'll verify this matches the interest rate and payment structure
+- **quoteProvidedValues.fortnightlyPayment**: Fortnightly payment amount from quote
+  - Extract this even if monthly is also provided
+- **quoteProvidedValues.monthlyPayment**: Monthly payment amount from quote
+  - Extract this even if fortnightly is also provided
+- **quoteProvidedValues.totalPayments**: Sum of all payments over the lease term
+  - Not including residual, just the regular payments
+- **quoteProvidedValues.totalLeaseCost**: Total cost of lease claimed by quote
+  - This might include or exclude residual - note what it includes
+- **quoteProvidedValues.taxSavings**: Tax savings claimed by the provider
+  - We'll recalculate this based on actual tax rates
+- **quoteProvidedValues.gstSavings**: GST savings claimed by the provider
+  - We'll verify this is accurate
+
+**IMPORTANT NOTES:**
+- If a value in quoteProvidedValues is not stated in the quote, omit it (don't set to 0)
+- Only include quoteProvidedValues that are explicitly stated
+- Use 0 for fees/costs that aren't mentioned
+- All quoteProvidedValues should match EXACTLY what's in the quote
+
+**ANALYSIS TIPS:**
+- Compare fortnightly payments across quotes - but also check the interest rate!
+- Low payments might mean high interest or long term
+- Check if insurance/maintenance costs are marked up
+- Total fees over the lease term can add thousands to the cost
+- The residual value determines your final balloon payment
+
+**Now extract and analyze the data from the following quote:**
 
 [PASTE YOUR QUOTE HERE]`
 

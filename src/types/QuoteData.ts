@@ -43,6 +43,18 @@ export interface EmployeeDetails {
   helpRepaymentRate?: number
 }
 
+// Values provided by the quote (vs calculated by us)
+export interface QuoteProvidedValues {
+  residualValue?: number // What the quote says the residual will be
+  totalFinanceCharges?: number // What the quote says total interest will be
+  fortnightlyPayment?: number // The fortnightly payment amount from quote
+  monthlyPayment?: number // The monthly payment amount from quote
+  totalPayments?: number // Total of all payments over lease term (from quote)
+  totalLeaseCost?: number // What the quote claims is the total cost
+  taxSavings?: number // Tax savings claimed by the quote
+  gstSavings?: number // GST savings claimed by the quote
+}
+
 export interface QuoteData {
   vehicle: VehicleDetails
   leaseTerms: LeaseTerms
@@ -50,6 +62,7 @@ export interface QuoteData {
   runningCosts: RunningCosts
   fbt: FBTDetails
   employee: EmployeeDetails
+  quoteProvidedValues?: QuoteProvidedValues // Optional: values from the quote itself
   customNotes?: string
 }
 
@@ -82,6 +95,24 @@ export interface CostBreakdown {
   netCostBeforeResidual: number
   residualValue: number
   totalNetCost: number
+}
+
+// Comparison between quote-provided values and our calculations
+export interface QuoteDiscrepancy {
+  field: string
+  label: string
+  quoteValue: number
+  calculatedValue: number
+  difference: number
+  percentageDiff: number
+  isSignificant: boolean // True if difference is >5%
+  explanation?: string
+}
+
+export interface QuoteValidation {
+  discrepancies: QuoteDiscrepancy[]
+  hasSignificantIssues: boolean
+  overallAssessment: 'accurate' | 'minor_differences' | 'significant_differences' | 'major_concerns'
 }
 
 export interface TaxCalculation {
