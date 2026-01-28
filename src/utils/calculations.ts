@@ -85,6 +85,9 @@ export function calculateYearlyBreakdowns(quote: QuoteData): YearlyBreakdown[] {
   const breakdowns: YearlyBreakdown[] = []
   let remainingPrincipal = financeAmount
   
+  // For FBT calculation using diminishing value method
+  const vehicleBaseValue = vehicle.purchasePrice / (1 + GST_RATE)
+  
   for (let year = 1; year <= leaseTerms.durationYears; year++) {
     let yearlyInterest = 0
     let yearlyPrincipal = 0
@@ -103,8 +106,9 @@ export function calculateYearlyBreakdowns(quote: QuoteData): YearlyBreakdown[] {
     const yearFees = annualAdminFees + (year === 1 ? fees.establishmentFee : 0) + 
                      (year === leaseTerms.durationYears ? fees.endOfLeaseFee : 0)
     
-    const vehicleBaseValue = vehicle.purchasePrice / (1 + GST_RATE)
-    const fbtCost = calculateFBTCost(vehicleBaseValue, fbt)
+    // Calculate FBT using diminishing base value (reduces by 1/3 each year)
+    const yearBaseValue = vehicleBaseValue * Math.pow(2/3, year - 1)
+    const fbtCost = calculateFBTCostForYear(yearBaseValue, fbt)
     
     const preTaxPackageAmount = yearlyPrincipal + yearlyInterest + totalRunningCosts + annualAdminFees
     const taxBracket = calculateIncomeTax(employee.taxableIncome, employee.hasHELPDebt, employee.helpRepaymentRate)
@@ -144,12 +148,45 @@ export function calculateFBTCost(
     return 0
   }
   
-  const statutoryRate = fbtDetails.statutoryRate || 0.20
+  // Use the provided statutory rate, or default to 0.20 if undefined
+  // Important: Allow 0% rate (for EVs or FBT-exempt vehicles)
+  const statutoryRate = fbtDetails.statutoryRate !== undefined ? fbtDetails.statutoryRate : 0.20
   const taxableValue = vehicleBaseValue * statutoryRate
   const fbtPayable = taxableValue * FBT_RATE
   const employeeContribution = fbtDetails.employeeContributionAmount
   
   return Math.max(0, fbtPayable - (employeeContribution * FBT_RATE))
+}
+
+export function calculateFBTCostForYear(
+  vehicleBaseValueForYear: number,
+  fbtDetails: { employeeContributionAmount: number; useStatutoryMethod: boolean; statutoryRate?: number }
+): number {
+  const FBT_RATE = 0.47
+  const TYPE_1_GROSSUP = 2.0802 // For GST-registered items
+  
+  if (!fbtDetails.useStatutoryMethod) {
+    return 0
+  }
+  
+  // Use the provided statutory rate, or default to 0.20 if undefined
+  // Important: Allow 0% rate (for EVs or FBT-exempt vehicles)
+  const statutoryRate = fbtDetails.statutoryRate !== undefined ? fbtDetails.statutoryRate : 0.20
+  
+  // Calculate taxable value
+  const taxableValue = vehicleBaseValueForYear * statutoryRate
+  
+  // Apply Type 1 gross-up for items that include GST
+  const grossedUpValue = taxableValue * TYPE_1_GROSSUP
+  
+  // Calculate FBT payable
+  const fbtPayable = grossedUpValue * FBT_RATE
+  
+  // Reduce by employee contribution (also grossed up)
+  const employeeContribution = fbtDetails.employeeContributionAmount
+  const employeeContributionReduction = employeeContribution * TYPE_1_GROSSUP * FBT_RATE
+  
+  return Math.max(0, fbtPayable - employeeContributionReduction)
 }
 
 export function calculateCostBreakdown(quote: QuoteData): CostBreakdown {

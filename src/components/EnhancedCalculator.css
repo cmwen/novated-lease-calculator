@@ -1,7 +1,36 @@
 .enhanced-calculator {
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 20px;
+}
+
+/* Main layout container for side-by-side view */
+.calculator-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 1200px) {
+  .calculator-layout {
+    flex-direction: row;
+    gap: 30px;
+  }
+  
+  .calculator-main {
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+  }
+  
+  .quick-edit-panel {
+    width: 380px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    margin-top: 0;
+  }
 }
 
 .calculator-header {
@@ -91,11 +120,32 @@
 
 /* Quick Edit Panel */
 .quick-edit-panel {
-  margin-top: 40px;
   padding: 25px;
   background: var(--secondary-bg);
   border-radius: 12px;
   box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+/* Custom scrollbar for side panel */
+@media (min-width: 1200px) {
+  .quick-edit-panel::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .quick-edit-panel::-webkit-scrollbar-track {
+    background: var(--card-bg);
+    border-radius: 4px;
+  }
+  
+  .quick-edit-panel::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+  
+  .quick-edit-panel::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+  }
 }
 
 .quick-edit-panel h3 {
@@ -142,6 +192,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 15px;
+}
+
+@media (min-width: 1200px) {
+  /* In side panel, stack fields vertically for better readability */
+  .quick-edit-panel .edit-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .edit-field {
@@ -192,6 +249,16 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1199px) {
+  .quick-edit-panel {
+    margin-top: 40px;
+  }
+  
+  .edit-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
 @media (max-width: 1024px) {
   .tab-navigation {
     gap: 8px;
@@ -209,7 +276,7 @@
   }
 
   .edit-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 15px;
   }
 }
