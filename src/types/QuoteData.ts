@@ -124,3 +124,12 @@ export interface PostLeaseScenario {
   financialOutcome: number
   recommendation: string
 }
+
+// Saved quote with metadata for comparison
+export interface SavedQuote {
+  id: string
+  name: string
+  data: QuoteData
+  savedAt: string
+  notes?: string
+}

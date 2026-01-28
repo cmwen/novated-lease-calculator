@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { QuoteData } from '../types/QuoteData'
+import { saveQuote } from '../utils/quoteStorage'
 import './QuoteImport.css'
 
 interface QuoteImportProps {
@@ -85,6 +86,9 @@ function QuoteImport({ onImport }: QuoteImportProps) {
   const [error, setError] = useState<string | null>(null)
   const [showPrompt, setShowPrompt] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [showSaveOption, setShowSaveOption] = useState(false)
+  const [quoteName, setQuoteName] = useState('')
+  const [importedData, setImportedData] = useState<QuoteData | null>(null)
 
   const handleImport = () => {
     try {
@@ -95,10 +99,43 @@ function QuoteImport({ onImport }: QuoteImportProps) {
       }
       
       setError(null)
-      onImport(parsed)
+      setImportedData(parsed)
+      setShowSaveOption(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Invalid JSON format')
     }
+  }
+
+  const handleLoadWithoutSaving = () => {
+    if (importedData) {
+      onImport(importedData)
+      resetForm()
+    }
+  }
+
+  const handleSaveAndLoad = () => {
+    if (!importedData) return
+    
+    if (!quoteName.trim()) {
+      setError('Please enter a name for this quote')
+      return
+    }
+
+    try {
+      saveQuote(quoteName.trim(), importedData)
+      onImport(importedData)
+      resetForm()
+    } catch (err) {
+      setError('Failed to save quote. Please try again.')
+    }
+  }
+
+  const resetForm = () => {
+    setJsonInput('')
+    setError(null)
+    setShowSaveOption(false)
+    setQuoteName('')
+    setImportedData(null)
   }
 
   const copyPrompt = async () => {
@@ -164,14 +201,47 @@ function QuoteImport({ onImport }: QuoteImportProps) {
               placeholder='Paste the JSON output here...'
               rows={10}
             />
-            {error && <div className="error-message">❌ {error}</div>}
-            <button 
-              className="btn-primary"
-              onClick={handleImport}
-              disabled={!jsonInput.trim()}
-            >
-              Import Quote Data
-            </button>
+            {error && <div className="error-message">{error}</div>}
+            
+            {!showSaveOption ? (
+              <button 
+                className="btn-primary"
+                onClick={handleImport}
+                disabled={!jsonInput.trim()}
+              >
+                Import Quote Data
+              </button>
+            ) : (
+              <div className="save-options">
+                <h4>Quote Imported Successfully!</h4>
+                <p>Would you like to save this quote for comparison later?</p>
+                
+                <div className="save-input-group">
+                  <input
+                    type="text"
+                    placeholder="Enter a name for this quote (e.g., Toyota RAV4 - Dealer A)"
+                    value={quoteName}
+                    onChange={(e) => setQuoteName(e.target.value)}
+                    className="quote-name-input"
+                  />
+                </div>
+                
+                <div className="save-actions">
+                  <button 
+                    className="btn-secondary"
+                    onClick={handleLoadWithoutSaving}
+                  >
+                    Load Without Saving
+                  </button>
+                  <button 
+                    className="btn-primary"
+                    onClick={handleSaveAndLoad}
+                  >
+                    Save & Load Quote
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -15,6 +15,7 @@ import LeaseAccountTracker from './LeaseAccountTracker'
 import * as BuyVsLeaseComparisonModule from './BuyVsLeaseComparison'
 import TaxImpactCalculator from './TaxImpactCalculator'
 import PostLeaseAnalyzer from './PostLeaseAnalyzer'
+import QuoteManager from './QuoteManager'
 import './EnhancedCalculator.css'
 
 const YearlyBreakdown = YearlyBreakdownModule.default
@@ -26,6 +27,11 @@ function EnhancedCalculator() {
 
   const handleQuoteImport = (importedData: QuoteData) => {
     setQuoteData(importedData)
+    setActiveTab('overview')
+  }
+
+  const handleLoadQuote = (loadedData: QuoteData) => {
+    setQuoteData(loadedData)
     setActiveTab('overview')
   }
 
@@ -52,6 +58,7 @@ function EnhancedCalculator() {
 
   const tabs = [
     { id: 'import', label: '📋 Import Quote', icon: '📋' },
+    { id: 'manage', label: '📁 Manage & Compare', icon: '📁' },
     { id: 'overview', label: '💰 Cost Breakdown', icon: '💰' },
     { id: 'yearly', label: '📊 Yearly Analysis', icon: '📊' },
     { id: 'account', label: '📈 Lease Account', icon: '📈' },
@@ -83,6 +90,13 @@ function EnhancedCalculator() {
       <div className="tab-content">
         {activeTab === 'import' && (
           <QuoteImport onImport={handleQuoteImport} />
+        )}
+
+        {activeTab === 'manage' && (
+          <QuoteManager 
+            currentQuote={quoteData}
+            onLoadQuote={handleLoadQuote}
+          />
         )}
 
         {activeTab === 'overview' && (
