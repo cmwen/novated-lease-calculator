@@ -10,6 +10,7 @@ import {
 } from '../utils/calculations'
 import QuoteImport from './QuoteImport'
 import CostBreakdownChart from './CostBreakdownChart'
+import CostStructureBreakdown from './CostStructureBreakdown'
 import * as YearlyBreakdownModule from './YearlyBreakdown'
 import LeaseAccountTracker from './LeaseAccountTracker'
 import * as BuyVsLeaseComparisonModule from './BuyVsLeaseComparison'
@@ -102,7 +103,10 @@ function EnhancedCalculator() {
             )}
 
             {activeTab === 'overview' && (
-              <CostBreakdownChart costBreakdown={costBreakdown} />
+              <>
+                <CostStructureBreakdown quote={quoteData} breakdown={costBreakdown} />
+                <CostBreakdownChart costBreakdown={costBreakdown} />
+              </>
             )}
 
             {activeTab === 'yearly' && (

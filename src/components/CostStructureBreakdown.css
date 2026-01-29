@@ -1,0 +1,314 @@
+.cost-structure-breakdown {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cost-structure-breakdown h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.breakdown-intro {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.cost-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cost-category {
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  background: var(--bg-primary);
+}
+
+.cost-category.purchase-costs {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.cost-category.leaser-fees {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.cost-category.reimbursable-costs {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.cost-category.non-reimbursable-costs {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.category-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.category-total {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.category-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--bg-primary);
+  border-radius: 4px;
+}
+
+.cost-item.highlight-reimbursable {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.item-label {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.item-value {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.reimbursable-note {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(16, 185, 129, 0.15);
+  border-left: 4px solid #10b981;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+/* Tooltip styling */
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tooltip-icon {
+  cursor: help;
+  font-size: 0.85rem;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.tooltip-icon:hover {
+  opacity: 1;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: normal;
+  width: max-content;
+  max-width: 300px;
+  z-index: 1000;
+  transition: opacity 0.3s, visibility 0.3s;
+  pointer-events: none;
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Cost Summary */
+.cost-summary {
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.cost-summary h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.summary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--card-bg);
+  border-radius: 4px;
+}
+
+.summary-item.savings {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid #10b981;
+}
+
+.summary-item.total {
+  background: rgba(59, 130, 246, 0.15);
+  border: 2px solid #3b82f6;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.summary-label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.summary-value {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.summary-item.total .summary-label,
+.summary-item.total .summary-value {
+  font-size: 1.1rem;
+}
+
+/* Cost Insights */
+.cost-insights {
+  padding: 1.25rem;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.cost-insights h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.cost-insights ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.cost-insights li {
+  position: relative;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.cost-insights li::before {
+  content: "•";
+  position: absolute;
+  left: -1.25rem;
+  color: #3b82f6;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.cost-insights strong {
+  color: var(--text-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cost-structure-breakdown {
+    padding: 1rem;
+  }
+
+  .category-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .category-total {
+    font-size: 1.1rem;
+  }
+
+  .cost-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .tooltip-text {
+    max-width: 200px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .cost-category.purchase-costs {
+    background: rgba(59, 130, 246, 0.1);
+  }
+
+  .cost-category.leaser-fees {
+    background: rgba(245, 158, 11, 0.1);
+  }
+
+  .cost-category.reimbursable-costs {
+    background: rgba(16, 185, 129, 0.1);
+  }
+
+  .cost-category.non-reimbursable-costs {
+    background: rgba(239, 68, 68, 0.1);
+  }
+}

@@ -29,7 +29,12 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
    - Maintenance package costs
    - Document fees
    - Any other administrative charges
-5. **Output ONLY valid JSON** matching the structure below
+5. **Extract metadata and terms:**
+   - Leaser/provider name
+   - Budget flexibility information (can the budget be adjusted? is pre-tax top-up allowed?)
+   - Key terms and conditions that might be unfavorable to customers
+   - Any unusual clauses or restrictions
+6. **Output ONLY valid JSON** matching the structure below
 
 **Required JSON Structure:**
 
@@ -78,6 +83,20 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
     "totalLeaseCost": 58540,
     "taxSavings": 8500,
     "gstSavings": 4545
+  },
+  "metadata": {
+    "leaserName": "FleetPartners",
+    "budgetFlexibility": "flexible",
+    "preTaxTopUp": true,
+    "customerWarnings": [
+      "Early termination fee of $2000 applies if lease is ended before term",
+      "Annual adjustment fee of $150 charged each year"
+    ],
+    "extractedTerms": [
+      "Budget can be adjusted quarterly with 30 days notice",
+      "Pre-tax top-up allowed up to $5000/year",
+      "Insurance must be purchased through provider's network"
+    ]
   }
 }
 \`\`\`
@@ -105,7 +124,7 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
   - May be called "disposal fee", "payout fee", or "termination fee"
   - Typical range: $300-$500
 
-**RUNNING COSTS (Annual):**
+**RUNNING COSTS (Annual - These are REIMBURSABLE via pre-tax deductions):**
 - **fuelPerYear**: Annual fuel/electricity costs
 - **insurancePerYear**: Annual insurance premium
   - Watch for markups above market rates
@@ -113,6 +132,8 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
   - If included as a "package", check if it's competitive
 - **registrationPerYear**: Annual registration/CTP
 - **tyresPerYear**: Annual tyre replacement costs
+
+NOTE: Running costs are reimbursable - they're paid from your pre-tax salary, providing tax savings.
 
 **FBT & TAX (Less Important for Comparison):**
 - **fbt.employeeContributionAmount**: Annual post-tax employee contribution
@@ -143,11 +164,36 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
 - **quoteProvidedValues.gstSavings**: GST savings claimed by the provider
   - We'll verify this is accurate
 
+**METADATA (NEW - Extract important information):**
+- **metadata.leaserName**: Name of the leasing company/provider
+  - Extract from letterhead, footer, or company name in the quote
+- **metadata.budgetFlexibility**: Can the budget be adjusted?
+  - "fixed" = No adjustments allowed
+  - "flexible" = Can adjust with notice
+  - "adjustable" = Quarterly or annual adjustments allowed
+  - "unknown" = Not specified
+- **metadata.preTaxTopUp**: true if pre-tax top-up is allowed
+  - Look for mentions of "budget adjustment", "pre-tax contribution", or "top-up"
+- **metadata.customerWarnings**: Array of unfavorable terms (extract ALL that apply)
+  - Early termination fees/penalties
+  - Annual adjustment fees
+  - Excessive admin charges
+  - Insurance/maintenance must be purchased through specific providers
+  - High balloon payment requirements
+  - Restrictions on vehicle modifications
+  - Any other terms that seem disadvantageous to customers
+- **metadata.extractedTerms**: Array of key terms that differ from standard
+  - Budget adjustment policies
+  - Top-up allowances
+  - Special conditions or requirements
+  - Unique features or restrictions
+
 **IMPORTANT NOTES:**
 - If a value in quoteProvidedValues is not stated in the quote, omit it (don't set to 0)
 - Only include quoteProvidedValues that are explicitly stated
 - Use 0 for fees/costs that aren't mentioned
 - All quoteProvidedValues should match EXACTLY what's in the quote
+- Include metadata fields even if not all information is available
 
 **ANALYSIS TIPS:**
 - Compare fortnightly payments across quotes - but also check the interest rate!
@@ -155,6 +201,7 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
 - Check if insurance/maintenance costs are marked up
 - Total fees over the lease term can add thousands to the cost
 - The residual value determines your final balloon payment
+- Budget flexibility and pre-tax top-up can significantly impact affordability
 
 **Now extract and analyze the data from the following quote:**
 
@@ -175,6 +222,12 @@ function QuoteImport({ onImport }: QuoteImportProps) {
       
       if (!parsed.vehicle || !parsed.leaseTerms || !parsed.employee) {
         throw new Error('Missing required fields in JSON')
+      }
+      
+      // Pre-populate quote name with leaser name and vehicle if available
+      if (!quoteName && parsed.metadata?.leaserName) {
+        const vehicle = `${parsed.vehicle.make} ${parsed.vehicle.model}`
+        setQuoteName(`${vehicle} - ${parsed.metadata.leaserName}`)
       }
       
       setError(null)

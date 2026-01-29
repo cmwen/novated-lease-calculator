@@ -55,6 +55,15 @@ export interface QuoteProvidedValues {
   gstSavings?: number // GST savings claimed by the quote
 }
 
+// Additional information extracted from the quote
+export interface QuoteMetadata {
+  leaserName?: string // Name of the leasing company/provider
+  budgetFlexibility?: 'fixed' | 'flexible' | 'adjustable' | 'unknown' // Can the budget be adjusted during the lease
+  preTaxTopUp?: boolean // Whether pre-tax top-up is allowed
+  customerWarnings?: string[] // Any terms/conditions that might be unfavorable to customers
+  extractedTerms?: string[] // Key terms and conditions that differ from standard
+}
+
 export interface QuoteData {
   vehicle: VehicleDetails
   leaseTerms: LeaseTerms
@@ -63,6 +72,7 @@ export interface QuoteData {
   fbt: FBTDetails
   employee: EmployeeDetails
   quoteProvidedValues?: QuoteProvidedValues // Optional: values from the quote itself
+  metadata?: QuoteMetadata // Optional: additional extracted information
   customNotes?: string
 }
 

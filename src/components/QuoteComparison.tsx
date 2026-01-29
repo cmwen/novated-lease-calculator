@@ -6,6 +6,21 @@ interface QuoteComparisonProps {
   quotes: (SavedQuote | null)[]
 }
 
+interface TooltipProps {
+  text: string
+  children: React.ReactNode
+}
+
+function Tooltip({ text, children }: TooltipProps) {
+  return (
+    <span className="tooltip-wrapper">
+      {children}
+      <span className="info-icon" title={text}>ℹ️</span>
+      <span className="tooltip-bubble">{text}</span>
+    </span>
+  )
+}
+
 function QuoteComparison({ quotes }: QuoteComparisonProps) {
   const validQuotes = quotes.filter((q): q is SavedQuote => q !== null)
 
@@ -74,6 +89,73 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
         Compare up to 3 leasing quotes side-by-side focusing on what matters most: total cost, payments, and fees. Best values are highlighted in green.
       </p>
 
+      {/* Warnings and Terms Section */}
+      {validQuotes.some(q => q.data.metadata?.customerWarnings || q.data.metadata?.extractedTerms) && (
+        <div className="warnings-section">
+          <h3>⚠️ Important Terms & Warnings</h3>
+          {validQuotes.map(quote => {
+            const metadata = quote.data.metadata
+            if (!metadata?.customerWarnings && !metadata?.extractedTerms && !metadata?.leaserName && metadata?.budgetFlexibility === undefined) {
+              return null
+            }
+
+            return (
+              <div key={quote.id} className="quote-warnings-card">
+                <div className="warnings-header">
+                  <h4>{quote.name}</h4>
+                  {metadata.leaserName && (
+                    <span className="leaser-badge">Provider: {metadata.leaserName}</span>
+                  )}
+                </div>
+
+                {(metadata.budgetFlexibility || metadata.preTaxTopUp !== undefined) && (
+                  <div className="flexibility-info">
+                    {metadata.budgetFlexibility && (
+                      <div className="flex-item">
+                        <strong>Budget Flexibility:</strong>{' '}
+                        <span className={`flex-badge flex-${metadata.budgetFlexibility}`}>
+                          {metadata.budgetFlexibility.charAt(0).toUpperCase() + metadata.budgetFlexibility.slice(1)}
+                        </span>
+                      </div>
+                    )}
+                    {metadata.preTaxTopUp !== undefined && (
+                      <div className="flex-item">
+                        <strong>Pre-Tax Top-Up:</strong>{' '}
+                        <span className={`flex-badge ${metadata.preTaxTopUp ? 'flex-yes' : 'flex-no'}`}>
+                          {metadata.preTaxTopUp ? 'Allowed ✓' : 'Not Allowed ✗'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {metadata.customerWarnings && metadata.customerWarnings.length > 0 && (
+                  <div className="customer-warnings">
+                    <h5>⚠️ Customer Warnings:</h5>
+                    <ul>
+                      {metadata.customerWarnings.map((warning, idx) => (
+                        <li key={idx} className="warning-item">{warning}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {metadata.extractedTerms && metadata.extractedTerms.length > 0 && (
+                  <div className="extracted-terms">
+                    <h5>📋 Key Terms & Conditions:</h5>
+                    <ul>
+                      {metadata.extractedTerms.map((term, idx) => (
+                        <li key={idx} className="term-item">{term}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+
       <div className="comparison-table-container">
         <table className="comparison-table">
           <thead>
@@ -97,7 +179,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               <td colSpan={validQuotes.length + 1}>💰 KEY COSTS - What You Really Pay</td>
             </tr>
             <tr className="total-row">
-              <td className="row-label"><strong>Total Net Cost (incl. Residual)</strong></td>
+              <td className="row-label">
+                <Tooltip text="Total cost after tax and GST savings, including the final residual/balloon payment. This is the real amount you'll pay over the lease term.">
+                  <strong>Total Net Cost (incl. Residual)</strong>
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => {
                 const isBest = breakdown.totalNetCost === bestNetCost
                 return (
@@ -108,7 +194,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               })}
             </tr>
             <tr>
-              <td className="row-label">Fortnightly Cost (Before Residual)</td>
+              <td className="row-label">
+                <Tooltip text={`Net cost divided by ${validQuotes[0]?.data.leaseTerms.durationYears || 3} years, then divided by 26 fortnights. Excludes residual payment.`}>
+                  Fortnightly Cost (Before Residual)
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => (
                 <td key={quote.id}>
                   {formatFortnightly((breakdown.netCostBeforeResidual / quote.data.leaseTerms.durationYears))}
@@ -116,7 +206,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               ))}
             </tr>
             <tr>
-              <td className="row-label">Vehicle Purchase Price</td>
+              <td className="row-label">
+                <Tooltip text="Drive-away price of the vehicle including GST. This is the amount being financed.">
+                  Vehicle Purchase Price
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => {
                 const isBest = breakdown.vehiclePrice === bestVehiclePrice
                 return (
@@ -127,7 +221,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               })}
             </tr>
             <tr>
-              <td className="row-label">Residual/Balloon Payment</td>
+              <td className="row-label">
+                <Tooltip text="ATO-mandated balloon payment due at end of lease. Based on minimum residual values (e.g., 46.88% for 3 years). You can pay this, refinance it, or sell the vehicle.">
+                  Residual/Balloon Payment
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => {
                 const isBest = breakdown.residualValue === bestResidualValue
                 return (
@@ -153,7 +251,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               })}
             </tr>
             <tr>
-              <td className="row-label">Total Interest Charges</td>
+              <td className="row-label">
+                <Tooltip text="Total interest/finance charges over the lease term. Formula: Monthly payment × months - principal financed.">
+                  Total Interest Charges
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => {
                 const isBest = breakdown.financeCharges === bestFinanceCharges
                 return (
@@ -176,7 +278,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               ))}
             </tr>
             <tr>
-              <td className="row-label">Total Admin Fees (All Months)</td>
+              <td className="row-label">
+                <Tooltip text={`Monthly admin fee × ${(validQuotes[0]?.data.leaseTerms.durationYears || 3) * 12} months. This is pure overhead charged by the leaser.`}>
+                  Total Admin Fees (All Months)
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => (
                 <td key={quote.id}>{formatCurrency(breakdown.adminFees)}</td>
               ))}
@@ -222,7 +328,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               ))}
             </tr>
             <tr className="highlight-row">
-              <td className="row-label">Tax Savings</td>
+              <td className="row-label">
+                <Tooltip text="Tax savings from salary packaging. Running costs and lease payments reduce taxable income. Formula: Pre-tax costs × marginal tax rate (including Medicare levy).">
+                  <strong>Tax Savings</strong>
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => (
                 <td key={quote.id} className="positive-value">
                   -{formatCurrency(breakdown.taxSavings)}
@@ -230,7 +340,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               ))}
             </tr>
             <tr className="highlight-row">
-              <td className="row-label">GST Savings</td>
+              <td className="row-label">
+                <Tooltip text="GST credits on eligible items (vehicle and running costs). Formula: Cost × 10% GST rate. Only available through novated lease structure.">
+                  <strong>GST Savings</strong>
+                </Tooltip>
+              </td>
               {breakdowns.map(({ quote, breakdown }) => (
                 <td key={quote.id} className="positive-value">
                   -{formatCurrency(breakdown.gstSavings)}
