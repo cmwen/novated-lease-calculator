@@ -12,6 +12,119 @@
   margin-bottom: 2rem;
 }
 
+/* Tax Display Controls */
+.tax-display-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--info-bg);
+  border-radius: 12px;
+  border: 2px solid var(--primary-color);
+}
+
+.tax-indicator {
+  flex: 1;
+}
+
+.tax-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.tax-explanation {
+  margin: 0.75rem 0 0 0;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.toggle-gst-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-gst-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .tax-display-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .toggle-gst-btn {
+    width: 100%;
+  }
+}
+
+/* Comparison Baseline Info */
+.comparison-baseline-info {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(59, 130, 246, 0.05);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 8px;
+}
+
+.comparison-baseline-info h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.comparison-baseline-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.comparison-baseline-info li {
+  position: relative;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.comparison-baseline-info li::before {
+  content: "✓";
+  position: absolute;
+  left: -1.5rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.comparison-baseline-info li:last-child {
+  margin-bottom: 0;
+}
+
+.comparison-baseline-info strong {
+  color: var(--primary-color);
+}
+
 .comparison-empty {
   text-align: center;
   padding: 4rem 2rem;
@@ -293,13 +406,13 @@
 }
 
 .assessment-ok {
-  background: #fff3cd;
-  color: #856404;
+  background: rgba(255, 193, 7, 0.2);
+  color: var(--warning-color);
 }
 
 .assessment-warning {
-  background: #ffeaa7;
-  color: #d63031;
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--error-color);
 }
 
 .assessment-danger {
@@ -331,8 +444,22 @@
   font-weight: 600;
 }
 
+/* Add better contrast for dark mode */
+[data-theme="dark"] .discrepancies-table thead th {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .discrepancies-table tbody tr {
+  background: var(--bg-primary);
+}
+
+[data-theme="dark"] .discrepancies-table tbody tr.significant-discrepancy {
+  background: rgba(255, 193, 7, 0.1);
+}
+
 .discrepancies-table tbody tr.significant-discrepancy {
-  background: #fff3cd;
+  background: rgba(255, 193, 7, 0.15);
 }
 
 .discrepancies-table .field-label {
@@ -381,19 +508,15 @@
 
 .validation-warning {
   padding: 1rem;
-  background: #ffeaa7;
-  border-left: 4px solid #d63031;
+  background: rgba(239, 68, 68, 0.15);
+  border-left: 4px solid var(--error-color);
   border-radius: 4px;
-  color: #856404;
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 
 .validation-warning strong {
-  color: #d63031;
-}
-
-.validation-warning strong {
-  color: #d63031;
+  color: var(--error-color);
 }
 
 /* Warnings and Terms Section */

@@ -1,5 +1,5 @@
 .enhanced-calculator {
-  max-width: 1800px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
 }
@@ -48,6 +48,38 @@
   color: var(--text-color);
   font-size: 1.1rem;
   opacity: 0.9;
+}
+
+/* Calculator Controls */
+.calculator-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.toggle-quick-edit-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-quick-edit-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 1199px) {
+  .toggle-quick-edit-btn {
+    width: 100%;
+  }
 }
 
 /* Tab Navigation */

@@ -12,16 +12,23 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
 **CRITICAL INSTRUCTIONS:**
 
 1. **Read the quote carefully** - Look for all costs, fees, and charges
-2. **Extract BOTH provided values AND underlying data:**
+2. **ALL VALUES MUST BE PRE-TAX AND EXCLUDE GST:**
+   - Extract the BASE vehicle price BEFORE GST (divide drive-away by 1.1 if needed)
+   - Extract ALL costs as PRE-TAX values (excluding GST)
+   - This is CRUCIAL for accurate comparison calculations
+   - If a value includes GST, explicitly note it and provide the ex-GST amount
+   - Example: If quote shows $55,000 drive-away, extract $50,000 as purchasePrice
+3. **Extract BOTH provided values AND underlying data:**
    - Extract what the quote CLAIMS (residual value, total cost, payments, etc.)
    - Extract the data we need to CALCULATE these ourselves (vehicle price, interest rate, term, etc.)
    - This allows us to compare their numbers with our calculations
-3. **Calculate the INTEREST RATE** if not explicitly stated:
-   - Look at the fortnightly/monthly payment amount
-   - Calculate what interest rate produces this payment
-   - Consider the vehicle price, lease term, and residual value
-   - If you can determine or estimate the rate, include it; otherwise use 0.07 as a reasonable estimate
-4. **Identify ALL hidden costs and fees:**
+4. **INTEREST RATE - PAY SPECIAL ATTENTION:**
+   - The interest rate in quotes is often the EFFECTIVE rate after accounting for tax benefits
+   - Look for explicit interest rate statements (e.g., "7.0% p.a." or "comparison rate 7.5%")
+   - If the quote shows fortnightly/monthly payments, back-calculate the rate
+   - Note: Some quotes may show a lower "effective" rate due to tax savings - we need the ACTUAL finance rate
+   - If unclear, use a conservative estimate around 7% (0.07)
+5. **Identify ALL hidden costs and fees:**
    - Management fees (monthly/annual)
    - Establishment/application fees
    - End-of-lease fees
@@ -29,12 +36,12 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
    - Maintenance package costs
    - Document fees
    - Any other administrative charges
-5. **Extract metadata and terms:**
+6. **Extract metadata and terms:**
    - Leaser/provider name
    - Budget flexibility information (can the budget be adjusted? is pre-tax top-up allowed?)
    - Key terms and conditions that might be unfavorable to customers
    - Any unusual clauses or restrictions
-6. **Output ONLY valid JSON** matching the structure below
+7. **Output ONLY valid JSON** matching the structure below
 
 **Required JSON Structure:**
 
@@ -104,34 +111,40 @@ const LLM_EXTRACTION_PROMPT = `You are a financial analysis assistant helping co
 **Field Descriptions - FOCUS ON COSTS:**
 
 **VEHICLE & CORE COSTS (Most Important):**
-- **vehicle.purchasePrice**: Total drive-away price - this is what you're financing
-- **leaseTerms.interestRate**: Annual interest rate as decimal (e.g., 7% = 0.07)
+- **vehicle.purchasePrice**: Drive-away price EXCLUDING GST (pre-tax value)
+  - This is the base amount being financed
+  - If quote shows $55,000 drive-away, extract as $50,000 ($55,000 / 1.1)
+  - GST is calculated separately in our tool
+- **leaseTerms.interestRate**: Annual FINANCE interest rate as decimal (e.g., 7% = 0.07)
   - TRY TO CALCULATE this from the payment amount if not stated
+  - This is the actual interest rate on the loan, NOT an "effective" rate after tax
+  - Look for: "comparison rate", "interest rate", "rate p.a."
   - This determines how much extra you pay over the lease term
   - Common range: 0.05-0.10 (5%-10%)
+  - WARNING: Some quotes show "effective rate after tax" - we need the ACTUAL rate
 - **leaseTerms.durationYears**: Length of lease (typically 1-5 years)
 - **leaseTerms.annualKilometers**: Expected annual kilometers
 
-**FEES & HIDDEN COSTS (Critical for Comparison):**
-- **fees.establishmentFee**: One-time setup/application fee
+**FEES & HIDDEN COSTS (Critical for Comparison - ALL PRE-TAX):**
+- **fees.establishmentFee**: One-time setup/application fee (pre-tax, ex-GST)
   - Often hidden in "documentation" or "processing" fees
   - Typical range: $300-$800
-- **fees.monthlyAdminFee**: Monthly account management fee
+- **fees.monthlyAdminFee**: Monthly account management fee (pre-tax, ex-GST)
   - This is MONTHLY, not annual
   - Multiply by lease term to see total impact
   - Typical range: $8-$15 per month
-- **fees.endOfLeaseFee**: Fee charged at lease end
+- **fees.endOfLeaseFee**: Fee charged at lease end (pre-tax, ex-GST)
   - May be called "disposal fee", "payout fee", or "termination fee"
   - Typical range: $300-$500
 
-**RUNNING COSTS (Annual - These are REIMBURSABLE via pre-tax deductions):**
-- **fuelPerYear**: Annual fuel/electricity costs
-- **insurancePerYear**: Annual insurance premium
+**RUNNING COSTS (Annual - ALL PRE-TAX, EX-GST - These are REIMBURSABLE via pre-tax deductions):**
+- **fuelPerYear**: Annual fuel/electricity costs (pre-tax, ex-GST)
+- **insurancePerYear**: Annual insurance premium (pre-tax, ex-GST)
   - Watch for markups above market rates
-- **maintenancePerYear**: Annual service and maintenance
+- **maintenancePerYear**: Annual service and maintenance (pre-tax, ex-GST)
   - If included as a "package", check if it's competitive
-- **registrationPerYear**: Annual registration/CTP
-- **tyresPerYear**: Annual tyre replacement costs
+- **registrationPerYear**: Annual registration/CTP (pre-tax, ex-GST)
+- **tyresPerYear**: Annual tyre replacement costs (pre-tax, ex-GST)
 
 NOTE: Running costs are reimbursable - they're paid from your pre-tax salary, providing tax savings.
 
@@ -146,7 +159,7 @@ NOTE: Running costs are reimbursable - they're paid from your pre-tax salary, pr
 - **employee.hasHELPDebt**: true/false
 - **employee.helpRepaymentRate**: HELP repayment rate as decimal (0-0.10)
 
-**QUOTE PROVIDED VALUES (Extract what the quote claims):**
+**QUOTE PROVIDED VALUES (Extract what the quote claims - these may include GST):**
 - **quoteProvidedValues.residualValue**: The residual/balloon payment stated in the quote
   - We'll compare this with ATO minimum residual values
 - **quoteProvidedValues.totalFinanceCharges**: Total interest charges claimed
@@ -189,6 +202,7 @@ NOTE: Running costs are reimbursable - they're paid from your pre-tax salary, pr
   - Unique features or restrictions
 
 **IMPORTANT NOTES:**
+- **CRITICAL**: All amounts (except quoteProvidedValues) MUST be pre-tax and exclude GST
 - If a value in quoteProvidedValues is not stated in the quote, omit it (don't set to 0)
 - Only include quoteProvidedValues that are explicitly stated
 - Use 0 for fees/costs that aren't mentioned
@@ -202,6 +216,7 @@ NOTE: Running costs are reimbursable - they're paid from your pre-tax salary, pr
 - Total fees over the lease term can add thousands to the cost
 - The residual value determines your final balloon payment
 - Budget flexibility and pre-tax top-up can significantly impact affordability
+- Always extract PRE-TAX values to ensure accurate comparison baseline
 
 **Now extract and analyze the data from the following quote:**
 

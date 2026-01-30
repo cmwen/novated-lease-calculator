@@ -25,6 +25,7 @@ const BuyVsLeaseComparison = BuyVsLeaseComparisonModule.default
 function EnhancedCalculator() {
   const [quoteData, setQuoteData] = useState<QuoteData>(createDefaultQuote())
   const [activeTab, setActiveTab] = useState<string>('overview')
+  const [isQuickEditVisible, setIsQuickEditVisible] = useState<boolean>(true)
 
   const handleQuoteImport = (importedData: QuoteData) => {
     setQuoteData(importedData)
@@ -73,6 +74,16 @@ function EnhancedCalculator() {
       <div className="calculator-header">
         <h2>🚗 Comprehensive Novated Lease Analysis</h2>
         <p>Explore all costs, savings, and scenarios for your novated lease</p>
+      </div>
+
+      <div className="calculator-controls">
+        <button 
+          className="toggle-quick-edit-btn"
+          onClick={() => setIsQuickEditVisible(!isQuickEditVisible)}
+          title={isQuickEditVisible ? "Hide Quick Edit Panel" : "Show Quick Edit Panel"}
+        >
+          {isQuickEditVisible ? '← Hide Quick Edit' : '→ Show Quick Edit'}
+        </button>
       </div>
 
       <div className="calculator-layout">
@@ -140,7 +151,8 @@ function EnhancedCalculator() {
           </div>
         </div>
 
-        <div className="quick-edit-panel">
+        {isQuickEditVisible && (
+          <div className="quick-edit-panel">
           <h3>Quick Edit Parameters</h3>
           <p className="edit-intro">Adjust any parameter below to see instant impact on costs and savings</p>
           
@@ -345,6 +357,7 @@ function EnhancedCalculator() {
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   )

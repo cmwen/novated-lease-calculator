@@ -1,6 +1,7 @@
 import type { SavedQuote } from '../types/QuoteData'
 import { calculateCostBreakdown, validateQuoteValues } from '../utils/calculations'
 import './QuoteComparison.css'
+import { useState } from 'react'
 
 interface QuoteComparisonProps {
   quotes: (SavedQuote | null)[]
@@ -22,6 +23,8 @@ function Tooltip({ text, children }: TooltipProps) {
 }
 
 function QuoteComparison({ quotes }: QuoteComparisonProps) {
+  const [showIncludingGST, setShowIncludingGST] = useState(false)
+  
   const validQuotes = quotes.filter((q): q is SavedQuote => q !== null)
 
   if (validQuotes.length === 0) {
@@ -48,6 +51,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value)
+  }
+
+  const formatCurrencyWithGST = (value: number) => {
+    const displayValue = showIncludingGST ? value * 1.1 : value
+    return formatCurrency(displayValue)
   }
 
   const formatPercent = (value: number) => {
@@ -88,6 +96,37 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
       <p className="comparison-intro">
         Compare up to 3 leasing quotes side-by-side focusing on what matters most: total cost, payments, and fees. Best values are highlighted in green.
       </p>
+
+      {/* Pre-tax/GST Toggle */}
+      <div className="tax-display-controls">
+        <div className="tax-indicator">
+          <span className="tax-badge">
+            {showIncludingGST ? '📊 Showing: Including GST (After-Tax)' : '📊 Showing: Excluding GST (Pre-Tax)'}
+          </span>
+          <p className="tax-explanation">
+            {showIncludingGST 
+              ? 'Values include 10% GST. This is what you would pay without the novated lease structure.'
+              : 'All values are pre-tax and exclude GST for accurate comparison. This is the base cost before tax benefits.'}
+          </p>
+        </div>
+        <button 
+          className="toggle-gst-btn"
+          onClick={() => setShowIncludingGST(!showIncludingGST)}
+        >
+          {showIncludingGST ? 'Show Pre-Tax Values (Ex-GST)' : 'Show After-Tax Values (Inc-GST)'}
+        </button>
+      </div>
+
+      {/* Important Comparison Baseline Info */}
+      <div className="comparison-baseline-info">
+        <h3>⚠️ Important: Comparison Baseline</h3>
+        <ul>
+          <li><strong>All extracted values are pre-tax and exclude GST</strong> to ensure accurate comparison across quotes</li>
+          <li><strong>Interest rates shown are actual finance rates</strong>, not "effective rates after tax" that some providers advertise</li>
+          <li><strong>Vehicle prices are base amounts</strong> before GST is added (GST is calculated separately in our tool)</li>
+          <li>This ensures we're comparing apples-to-apples across different providers</li>
+        </ul>
+      </div>
 
       {/* Warnings and Terms Section */}
       {validQuotes.some(q => q.data.metadata?.customerWarnings || q.data.metadata?.extractedTerms) && (
@@ -207,15 +246,17 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
             </tr>
             <tr>
               <td className="row-label">
-                <Tooltip text="Drive-away price of the vehicle including GST. This is the amount being financed.">
-                  Vehicle Purchase Price
+                <Tooltip text={showIncludingGST 
+                  ? "Drive-away price of the vehicle including 10% GST. Without novated lease, this is what you'd pay."
+                  : "Base price of the vehicle excluding GST. The novated lease structure allows GST to be claimed back."}>
+                  Vehicle Purchase Price {showIncludingGST ? '(Inc-GST)' : '(Ex-GST)'}
                 </Tooltip>
               </td>
               {breakdowns.map(({ quote, breakdown }) => {
                 const isBest = breakdown.vehiclePrice === bestVehiclePrice
                 return (
                   <td key={quote.id} className={isBest ? 'best-value' : ''}>
-                    {formatCurrency(breakdown.vehiclePrice)}
+                    {formatCurrencyWithGST(breakdown.vehiclePrice)}
                   </td>
                 )
               })}
@@ -240,7 +281,11 @@ function QuoteComparison({ quotes }: QuoteComparisonProps) {
               <td colSpan={validQuotes.length + 1}>🔍 Interest & Fees - Hidden Costs Revealed</td>
             </tr>
             <tr>
-              <td className="row-label">Interest Rate</td>
+              <td className="row-label">
+                <Tooltip text="This should be the ACTUAL finance interest rate (comparison rate), NOT an 'effective rate after tax'. Some quotes show a lower effective rate after accounting for tax savings, but we need the real interest rate for accurate calculations. Typical range: 5-10% p.a.">
+                  Interest Rate (Finance Rate, Pre-Tax)
+                </Tooltip>
+              </td>
               {validQuotes.map(quote => {
                 const isBest = quote.data.leaseTerms.interestRate === bestInterestRate
                 return (
