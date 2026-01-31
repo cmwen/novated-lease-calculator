@@ -26,15 +26,17 @@ function ShareButton({ quoteData }: ShareButtonProps) {
       setTimeout(() => setCopied(false), 3000)
     } catch (error) {
       console.error('Failed to copy to clipboard:', error)
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea')
-      textArea.value = shareUrl
-      document.body.appendChild(textArea)
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 3000)
+      // Fallback: Select text for manual copy
+      try {
+        const input = document.querySelector('.share-url-input') as HTMLInputElement
+        if (input) {
+          input.select()
+          input.setSelectionRange(0, 99999) // For mobile devices
+        }
+      } catch {
+        // If all else fails, user can manually copy
+        console.warn('Please manually copy the URL')
+      }
     }
   }
 

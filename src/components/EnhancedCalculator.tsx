@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { QuoteData } from '../types/QuoteData'
 import {
   createDefaultQuote,
@@ -38,15 +38,6 @@ function EnhancedCalculator() {
   })
   const [activeTab, setActiveTab] = useState<string>('overview')
   const [isQuickEditVisible, setIsQuickEditVisible] = useState<boolean>(true)
-
-  // Show a notification when a quote is loaded from URL
-  useEffect(() => {
-    const urlQuote = getQuoteFromUrl()
-    if (urlQuote) {
-      // Optional: Show a toast notification
-      console.log('Quote loaded from shared URL')
-    }
-  }, [])
 
   const handleQuoteImport = (importedData: QuoteData) => {
     setQuoteData(importedData)

@@ -3,8 +3,12 @@ import './Disclaimer.css'
 
 function Disclaimer() {
   const [isExpanded, setIsExpanded] = useState(() => {
-    const saved = localStorage.getItem('disclaimerExpanded')
-    return saved ? JSON.parse(saved) : true // Default to expanded
+    try {
+      const saved = localStorage.getItem('disclaimerExpanded')
+      return saved ? JSON.parse(saved) : true // Default to expanded
+    } catch {
+      return true // Default to expanded if parsing fails
+    }
   })
 
   useEffect(() => {

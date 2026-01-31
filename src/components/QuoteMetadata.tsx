@@ -5,6 +5,8 @@ interface QuoteMetadataProps {
   quoteData: QuoteData
 }
 
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
+
 function QuoteMetadata({ quoteData }: QuoteMetadataProps) {
   const metadata = quoteData.metadata
 
@@ -39,7 +41,7 @@ function QuoteMetadata({ quoteData }: QuoteMetadataProps) {
                 <div className="metadata-item">
                   <span className="item-label">Budget Flexibility:</span>
                   <span className={`item-value flex-badge flex-${metadata.budgetFlexibility}`}>
-                    {metadata.budgetFlexibility.charAt(0).toUpperCase() + metadata.budgetFlexibility.slice(1)}
+                    {capitalize(metadata.budgetFlexibility)}
                   </span>
                 </div>
               )}
