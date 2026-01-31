@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { QuoteData } from '../types/QuoteData'
 import {
   createDefaultQuote,
@@ -8,6 +8,7 @@ import {
   calculatePostLeaseScenarios,
   calculateResidualValue
 } from '../utils/calculations'
+import { getQuoteFromUrl, clearQuoteFromUrl } from '../utils/urlSharing'
 import QuoteImport from './QuoteImport'
 import CostBreakdownChart from './CostBreakdownChart'
 import CostStructureBreakdown from './CostStructureBreakdown'
@@ -17,15 +18,35 @@ import * as BuyVsLeaseComparisonModule from './BuyVsLeaseComparison'
 import TaxImpactCalculator from './TaxImpactCalculator'
 import PostLeaseAnalyzer from './PostLeaseAnalyzer'
 import QuoteManager from './QuoteManager'
+import ShareButton from './ShareButton'
+import QuoteMetadata from './QuoteMetadata'
 import './EnhancedCalculator.css'
 
 const YearlyBreakdown = YearlyBreakdownModule.default
 const BuyVsLeaseComparison = BuyVsLeaseComparisonModule.default
 
 function EnhancedCalculator() {
-  const [quoteData, setQuoteData] = useState<QuoteData>(createDefaultQuote())
+  const [quoteData, setQuoteData] = useState<QuoteData>(() => {
+    // Try to load from URL first
+    const urlQuote = getQuoteFromUrl()
+    if (urlQuote) {
+      // Clear the URL parameter after loading
+      clearQuoteFromUrl()
+      return urlQuote
+    }
+    return createDefaultQuote()
+  })
   const [activeTab, setActiveTab] = useState<string>('overview')
   const [isQuickEditVisible, setIsQuickEditVisible] = useState<boolean>(true)
+
+  // Show a notification when a quote is loaded from URL
+  useEffect(() => {
+    const urlQuote = getQuoteFromUrl()
+    if (urlQuote) {
+      // Optional: Show a toast notification
+      console.log('Quote loaded from shared URL')
+    }
+  }, [])
 
   const handleQuoteImport = (importedData: QuoteData) => {
     setQuoteData(importedData)
@@ -72,8 +93,13 @@ function EnhancedCalculator() {
   return (
     <div className="enhanced-calculator">
       <div className="calculator-header">
-        <h2>🚗 Comprehensive Novated Lease Analysis</h2>
-        <p>Explore all costs, savings, and scenarios for your novated lease</p>
+        <div className="header-content">
+          <div>
+            <h2>🚗 Comprehensive Novated Lease Analysis</h2>
+            <p>Explore all costs, savings, and scenarios for your novated lease</p>
+          </div>
+          <ShareButton quoteData={quoteData} />
+        </div>
       </div>
 
       <div className="calculator-controls">
@@ -115,6 +141,7 @@ function EnhancedCalculator() {
 
             {activeTab === 'overview' && (
               <>
+                <QuoteMetadata quoteData={quoteData} />
                 <CostStructureBreakdown quote={quoteData} breakdown={costBreakdown} />
                 <CostBreakdownChart costBreakdown={costBreakdown} />
               </>

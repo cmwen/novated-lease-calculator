@@ -2,22 +2,60 @@
   background: var(--warning-bg);
   border-left: 4px solid var(--warning-color);
   border-radius: 8px;
-  padding: 2rem;
+  padding: 0;
   margin: 2rem 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.disclaimer-header {
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.disclaimer-header:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.disclaimer-header h3 {
+  flex: 1;
+  margin: 0;
+  color: var(--heading-color);
+  font-size: 1.4rem;
+}
+
+.disclaimer-toggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--text-color);
+  transition: transform 0.3s ease;
+}
+
+.disclaimer.collapsed .disclaimer-header {
+  padding: 1rem 2rem;
+}
+
+.disclaimer.collapsed .disclaimer-header h3 {
+  font-size: 1.2rem;
 }
 
 .disclaimer-icon {
-  font-size: 2.5rem;
+  font-size: 2rem;
   flex-shrink: 0;
 }
 
-.disclaimer-content h3 {
-  color: var(--heading-color);
-  margin-bottom: 1.5rem;
-  font-size: 1.4rem;
+.disclaimer-content {
+  padding: 0 2rem 2rem 2rem;
 }
+
+
 
 .disclaimer-section {
   margin-bottom: 1.5rem;
@@ -85,12 +123,15 @@
 }
 
 @media (max-width: 768px) {
-  .disclaimer {
-    flex-direction: column;
-    padding: 1.5rem;
+  .disclaimer-header {
+    padding: 1rem 1.5rem;
   }
 
-  .disclaimer-content h3 {
+  .disclaimer-content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+
+  .disclaimer-header h3 {
     font-size: 1.2rem;
   }
 
@@ -101,41 +142,8 @@
   .disclaimer-important strong {
     font-size: 0.95rem;
   }
-}
-
-.disclaimer-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-
-.disclaimer-content h3 {
-  color: var(--warning);
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-.disclaimer-content p {
-  margin-bottom: 0.75rem;
-  line-height: 1.6;
-}
-
-.disclaimer-content ul {
-  margin: 0.5rem 0 1rem 1.5rem;
-  padding: 0;
-}
-
-.disclaimer-content li {
-  margin-bottom: 0.5rem;
-  color: var(--text-secondary);
-}
-
-@media (max-width: 768px) {
-  .disclaimer {
-    flex-direction: column;
-    text-align: center;
-  }
   
   .disclaimer-icon {
-    font-size: 3rem;
+    font-size: 1.5rem;
   }
 }
