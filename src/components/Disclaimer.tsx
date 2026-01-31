@@ -1,11 +1,35 @@
+import { useState, useEffect } from 'react'
 import './Disclaimer.css'
 
 function Disclaimer() {
+  const [isExpanded, setIsExpanded] = useState(() => {
+    try {
+      const saved = localStorage.getItem('disclaimerExpanded')
+      return saved ? JSON.parse(saved) : true // Default to expanded
+    } catch {
+      return true // Default to expanded if parsing fails
+    }
+  })
+
+  useEffect(() => {
+    localStorage.setItem('disclaimerExpanded', JSON.stringify(isExpanded))
+  }, [isExpanded])
+
+  const toggleDisclaimer = () => {
+    setIsExpanded(!isExpanded)
+  }
+
   return (
-    <div className="disclaimer">
-      <div className="disclaimer-icon">⚠️</div>
-      <div className="disclaimer-content">
+    <div className={`disclaimer ${isExpanded ? 'expanded' : 'collapsed'}`}>
+      <div className="disclaimer-header" onClick={toggleDisclaimer}>
+        <div className="disclaimer-icon">⚠️</div>
         <h3>Important Disclaimer - Please Read Carefully</h3>
+        <button className="disclaimer-toggle" aria-label={isExpanded ? "Collapse disclaimer" : "Expand disclaimer"}>
+          {isExpanded ? '▼' : '▶'}
+        </button>
+      </div>
+      {isExpanded && (
+      <div className="disclaimer-content">
         
         <div className="disclaimer-section">
           <h4>Educational Purpose Only</h4>
@@ -90,6 +114,7 @@ function Disclaimer() {
           </p>
         </div>
       </div>
+      )}
     </div>
   )
 }
