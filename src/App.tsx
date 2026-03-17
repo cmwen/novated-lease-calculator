@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import EnhancedCalculator from './components/EnhancedCalculator'
-import InfoSection from './components/InfoSection'
-import LeaseOperationsGuide from './components/LeaseOperationsGuide'
-import Disclaimer from './components/Disclaimer'
-import KeyLinks from './components/KeyLinks'
+import HomeExperience from './components/HomeExperience'
 import ThemeToggle from './components/ThemeToggle'
 
 // Initialize theme before component renders
@@ -38,17 +34,16 @@ function App() {
             <h1>🚗 Novated Lease Calculator</h1>
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </div>
-          <p className="subtitle">Your complete guide to novated leasing in Australia</p>
+          <p className="subtitle">
+            Estimate the numbers, understand life after settlement, and find the right support path without
+            wading through one giant page.
+          </p>
         </div>
       </header>
 
       <main className="main">
         <div className="container">
-          <Disclaimer />
-          <EnhancedCalculator />
-          <InfoSection />
-          <LeaseOperationsGuide />
-          <KeyLinks />
+          <HomeExperience />
         </div>
       </main>
 

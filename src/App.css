@@ -7,7 +7,7 @@
 .header {
   background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
   color: white;
-  padding: 2rem 0;
+  padding: 2.5rem 0 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -28,11 +28,13 @@
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.1rem;
   margin: 0;
+  max-width: 46rem;
+  line-height: 1.6;
 }
 
 .main {
   flex: 1;
-  padding: 2rem 0;
+  padding: 1.5rem 0 2.5rem;
 }
 
 .footer {

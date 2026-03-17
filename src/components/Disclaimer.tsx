@@ -5,9 +5,9 @@ function Disclaimer() {
   const [isExpanded, setIsExpanded] = useState(() => {
     try {
       const saved = localStorage.getItem('disclaimerExpanded')
-      return saved ? JSON.parse(saved) : true // Default to expanded
+      return saved ? JSON.parse(saved) : false
     } catch {
-      return true // Default to expanded if parsing fails
+      return false
     }
   })
 
@@ -21,15 +21,28 @@ function Disclaimer() {
 
   return (
     <div className={`disclaimer ${isExpanded ? 'expanded' : 'collapsed'}`}>
-      <div className="disclaimer-header" onClick={toggleDisclaimer}>
-        <div className="disclaimer-icon">⚠️</div>
-        <h3>Important Disclaimer - Please Read Carefully</h3>
-        <button className="disclaimer-toggle" aria-label={isExpanded ? "Collapse disclaimer" : "Expand disclaimer"}>
-          {isExpanded ? '▼' : '▶'}
-        </button>
-      </div>
+      <button
+        type="button"
+        className="disclaimer-header"
+        onClick={toggleDisclaimer}
+        aria-expanded={isExpanded}
+        aria-controls="calculator-disclaimer-content"
+      >
+        <span className="disclaimer-icon" aria-hidden="true">⚠️</span>
+        <span className="disclaimer-header-copy">
+          <span className="disclaimer-kicker">Calculator notice</span>
+          <span className="disclaimer-title">Educational estimate only</span>
+          <span className="disclaimer-summary">
+            Use this calculator to understand quote structure, trade-offs, and questions to ask your provider.
+            It should not replace personal tax, financial, or legal advice.
+          </span>
+        </span>
+        <span className="disclaimer-toggle" aria-hidden="true">
+          {isExpanded ? 'Hide details' : 'Show details'}
+        </span>
+      </button>
       {isExpanded && (
-      <div className="disclaimer-content">
+      <div id="calculator-disclaimer-content" className="disclaimer-content">
         
         <div className="disclaimer-section">
           <h4>Educational Purpose Only</h4>
