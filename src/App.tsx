@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import EnhancedCalculator from './components/EnhancedCalculator'
 import InfoSection from './components/InfoSection'
+import LeaseOperationsGuide from './components/LeaseOperationsGuide'
 import Disclaimer from './components/Disclaimer'
 import KeyLinks from './components/KeyLinks'
 import ThemeToggle from './components/ThemeToggle'
@@ -46,6 +47,7 @@ function App() {
           <Disclaimer />
           <EnhancedCalculator />
           <InfoSection />
+          <LeaseOperationsGuide />
           <KeyLinks />
         </div>
       </main>

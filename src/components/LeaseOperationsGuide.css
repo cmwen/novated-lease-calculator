@@ -1,0 +1,362 @@
+.operations-guide {
+  margin: 3rem 0;
+}
+
+.operations-guide h2 {
+  margin-bottom: 1rem;
+}
+
+.operations-intro {
+  max-width: 70rem;
+  font-size: 1.05rem;
+}
+
+.operations-banner,
+.operations-panel,
+.operations-sources,
+.operations-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background-color: var(--bg-secondary);
+  box-shadow: var(--card-shadow);
+}
+
+.operations-banner {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--accent);
+  background-color: var(--info-bg);
+}
+
+.operations-banner strong {
+  color: var(--text-primary);
+}
+
+.operations-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.roles-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.comparison-grid,
+.detail-grid,
+.provider-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.operations-card {
+  padding: 1.5rem;
+}
+
+.operations-card p:last-child {
+  margin-bottom: 0;
+}
+
+.role-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.role-header h3 {
+  margin: 0;
+}
+
+.role-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.operations-card ul,
+.operations-panel ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1.4rem;
+}
+
+.operations-card li,
+.operations-panel li {
+  color: var(--text-secondary);
+  margin-bottom: 0.55rem;
+  line-height: 1.55;
+}
+
+.operations-panel,
+.operations-sources {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.panel-intro {
+  margin-bottom: 1.25rem;
+}
+
+.timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.timeline-marker {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  box-shadow: var(--card-shadow);
+}
+
+.timeline-content h4 {
+  margin-bottom: 0.35rem;
+}
+
+.timeline-content p {
+  margin: 0;
+}
+
+.flow-group + .flow-group {
+  margin-top: 1.25rem;
+}
+
+.flow-lane {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.flow-box {
+  flex: 1 1 180px;
+  min-width: 180px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background-color: var(--card-bg);
+}
+
+.flow-box strong {
+  display: block;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.flow-box span {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.flow-box.primary {
+  background-color: var(--primary-light);
+}
+
+.flow-box.success {
+  background-color: var(--success-light);
+}
+
+.flow-box.warning {
+  background-color: var(--warning-bg);
+}
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.flow-note {
+  margin-top: 0.85rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: var(--bg-primary);
+  border: 1px dashed var(--border);
+  color: var(--text-secondary);
+}
+
+.budget-grid {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.budget-card,
+.tip-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  background-color: var(--card-bg);
+}
+
+.budget-card strong,
+.tip-card strong {
+  display: block;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.budget-card p,
+.tip-card p {
+  margin: 0;
+}
+
+.compare-card.direct {
+  border-top: 4px solid var(--success-color);
+}
+
+.compare-card.reimburse {
+  border-top: 4px solid var(--warning-color);
+}
+
+.compare-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.tip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.provider-label {
+  display: inline-flex;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.9rem;
+  background-color: var(--primary-light);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.provider-links,
+.source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.provider-link,
+.source-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background-color: var(--card-bg);
+  text-decoration: none;
+}
+
+.provider-link:hover,
+.source-links a:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.formula-list {
+  margin: 1rem 0 0;
+  padding-left: 1.5rem;
+}
+
+.formula-list li {
+  margin-bottom: 0.7rem;
+}
+
+.formula-note {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px dashed var(--border);
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+}
+
+.formula-note strong {
+  color: var(--text-primary);
+}
+
+.contact-grid {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.9fr) minmax(170px, 1fr) 1.6fr;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background-color: var(--card-bg);
+}
+
+.contact-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.contact-row strong {
+  color: var(--text-primary);
+}
+
+.contact-row p {
+  margin: 0;
+}
+
+.tax-checklist {
+  padding-left: 1.4rem;
+}
+
+.operations-sources strong {
+  color: var(--text-primary);
+}
+
+.operations-sources p {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .timeline-item,
+  .contact-row {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-lane {
+    flex-direction: column;
+  }
+
+  .flow-arrow {
+    min-height: 1.5rem;
+    transform: rotate(90deg);
+  }
+
+  .provider-links,
+  .source-links {
+    gap: 0.5rem;
+  }
+}
