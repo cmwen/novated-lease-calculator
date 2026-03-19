@@ -23,14 +23,6 @@ interface ProviderLink {
   url: string
 }
 
-interface ProviderCard {
-  title: string
-  provider: string
-  summary: string
-  bullets: string[]
-  links: ProviderLink[]
-}
-
 const roleCards: RoleCard[] = [
   {
     icon: '🏢',
@@ -134,58 +126,6 @@ const contactRows: ContactRow[] = [
   }
 ]
 
-const providerCards: ProviderCard[] = [
-  {
-    title: 'SG Fleet',
-    provider: 'SG Fleet',
-    summary: 'SG Fleet’s public support pages focus on a portal-led claims process and direct support through mySG once the lease has commenced.',
-    bullets: [
-      'SG Fleet says out-of-pocket claims are lodged through mySG after the lease starts.',
-      'Its driver support page says fuel cards are issued when fuel is included, and you can pay yourself and claim reimbursement if you use a non-preferred station or supplier.',
-      'Its EV page says eligible EV finance and running costs can be paid entirely from pre-tax salary because of the electric car FBT exemption.',
-      'The public SG Fleet pages do not clearly promise a dedicated EV charging card, so confirm whether your program uses reimbursements, a card, or another method before relying on it.'
-    ],
-    links: [
-      {
-        label: 'mySG reimbursement claims',
-        url: 'https://www.sgfleet.com/au/novated-ops/novated-lease-reimbursement-claims'
-      },
-      {
-        label: 'Novated driver support',
-        url: 'https://www.sgfleet.com/au/driver-support/novated-driver-support'
-      },
-      {
-        label: 'SG Fleet EV overview',
-        url: 'https://www.sgfleet.com/au/novated-leasing/electric-vehicles'
-      }
-    ]
-  },
-  {
-    title: 'Smart / SmartSalary',
-    provider: 'Smart',
-    summary: 'Smart publishes its novated lease EV charging guidance under the Smart brand, while some legal entities and documents still reference SmartSalary.',
-    bullets: [
-      'Smart says you can package either home charging costs or commercial charging costs for an EV.',
-      'For fully electric vehicles, Smart says you can claim 4.2 cents per kilometre and links customers to ATO PCG 2024/2 for the simplified home-charging method.',
-      'Smart also says a Chargefox RFID card can be linked to your Smart account to simplify public charging payments.',
-      'For account support, Smart directs customers to FAQs, chat, and contact topics including Existing novated lease and Electric vehicles.'
-    ],
-    links: [
-      {
-        label: 'Smart EV charging guide',
-        url: 'https://www.smart.com.au/novated-leasing/electric-vehicles-ev/ev-charging/'
-      },
-      {
-        label: 'Smart contact and FAQs',
-        url: 'https://www.smart.com.au/contact-us/'
-      },
-      {
-        label: 'ATO PCG 2024/2',
-        url: 'https://www.ato.gov.au/law/view/pdf/cog/pcg2024-002.pdf'
-      }
-    ]
-  }
-]
 
 const sourceLinks: ProviderLink[] = [
   {
@@ -203,14 +143,6 @@ const sourceLinks: ProviderLink[] = [
   {
     label: 'ATO reportable fringe benefits',
     url: 'https://www.ato.gov.au/individuals-and-families/jobs-and-employment-types/working-as-an-employee/reportable-fringe-benefits-for-employees'
-  },
-  {
-    label: 'SG Fleet novated driver support',
-    url: 'https://www.sgfleet.com/au/driver-support/novated-driver-support'
-  },
-  {
-    label: 'Smart EV charging',
-    url: 'https://www.smart.com.au/novated-leasing/electric-vehicles-ev/ev-charging/'
   }
 ]
 
@@ -411,34 +343,6 @@ function LeaseOperationsGuide() {
         </div>
       </section>
 
-      <div className="operations-grid provider-grid">
-        {providerCards.map((card) => (
-          <section key={card.title} className="operations-card provider-card">
-            <div className="provider-label">{card.provider}</div>
-            <h3>{card.title} and EV charging</h3>
-            <p>{card.summary}</p>
-            <ul>
-              {card.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-            <div className="provider-links">
-              {card.links.map((link) => (
-                <a
-                  key={link.url}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="provider-link"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
-
       <div className="operations-grid detail-grid">
         <section className="operations-card">
           <h3>How FBT is calculated in this setup</h3>
@@ -494,8 +398,8 @@ function LeaseOperationsGuide() {
       <footer className="operations-sources">
         <strong>Source links used for this section</strong>
         <p>
-          Provider rules move, especially around EV charging and reimbursement workflows, so treat these as starting
-          points and confirm the current process inside your own portal or support channel.
+          Tax rules and thresholds can change each financial year, so treat these as starting
+          points and confirm the current rules with the ATO or your tax adviser.
         </p>
         <div className="source-links">
           {sourceLinks.map((link) => (

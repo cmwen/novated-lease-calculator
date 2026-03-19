@@ -25,30 +25,6 @@ function KeyLinks() {
       description: 'Salary packaging and financial guidance',
       url: 'https://moneysmart.gov.au/work-and-tax/salary-packaging',
       icon: '💰'
-    },
-    {
-      title: 'SG Fleet - Driver Support',
-      description: 'Portal access, fuel card guidance, and running-cost support for SG Fleet customers',
-      url: 'https://www.sgfleet.com/au/driver-support/novated-driver-support',
-      icon: '🚗'
-    },
-    {
-      title: 'SG Fleet - Reimbursement Claims',
-      description: 'mySG reimbursement access for eligible out-of-pocket claims',
-      url: 'https://www.sgfleet.com/au/novated-ops/novated-lease-reimbursement-claims',
-      icon: '💳'
-    },
-    {
-      title: 'Smart - EV Charging',
-      description: 'Smart / SmartSalary guidance on home charging, public charging, and Chargefox',
-      url: 'https://www.smart.com.au/novated-leasing/electric-vehicles-ev/ev-charging/',
-      icon: '🔌'
-    },
-    {
-      title: 'Smart - Contact & FAQs',
-      description: 'Support hub for existing novated leases, account questions, and EV help',
-      url: 'https://www.smart.com.au/contact-us/',
-      icon: '📞'
     }
   ]
 
@@ -56,9 +32,8 @@ function KeyLinks() {
     <div className="links-section">
       <h2>🔗 Key Resources & Links</h2>
       <p className="links-intro">
-        Visit these official Australian government pages and provider support hubs for authoritative
-        information about novated leases, EV charging, salary packaging, tax-time reporting, and day-to-day
-        account management.
+        Visit these official Australian government pages for authoritative
+        information about novated leases, EV charging, salary packaging, and tax-time reporting.
       </p>
 
       <div className="links-grid">
@@ -82,8 +57,8 @@ function KeyLinks() {
 
       <div className="links-footer">
         <p>
-          <strong>Note:</strong> Government links are best for tax rules. Provider links are best for the
-          actual claims, card, and support process on your own account, which can vary by employer and
+          <strong>Note:</strong> Government links are best for tax rules. Contact your novated lease provider
+          directly for the actual claims, card, and support process on your own account, which can vary by employer and
           provider program.
         </p>
       </div>
